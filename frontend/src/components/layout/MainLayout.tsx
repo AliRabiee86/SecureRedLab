@@ -9,7 +9,7 @@ import Header from './Header'
 
 export default function MainLayout() {
   return (
-    <div className="flex h-screen bg-dark-900 text-dark-100">
+    <div className="flex h-screen bg-gray-900 text-gray-100">
       {/* Sidebar */}
       <Sidebar />
 

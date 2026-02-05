@@ -20,15 +20,15 @@ export default function EmptyState({ icon: Icon, title, description, action }: E
   return (
     <div className="flex flex-col items-center justify-center gap-4 p-12 text-center">
       {Icon && (
-        <div className="rounded-full bg-dark-700 p-4">
-          <Icon className="h-8 w-8 text-dark-400" />
+        <div className="rounded-full bg-gray-700 p-4">
+          <Icon className="h-8 w-8 text-gray-400" />
         </div>
       )}
       
       <div className="space-y-2">
         <h3 className="text-lg font-semibold text-white">{title}</h3>
         {description && (
-          <p className="text-sm text-dark-400">{description}</p>
+          <p className="text-sm text-gray-400">{description}</p>
         )}
       </div>
 

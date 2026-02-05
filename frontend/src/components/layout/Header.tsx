@@ -15,7 +15,7 @@ export default function Header() {
   const unreadCount = notifications.filter((n) => !n.read).length
 
   return (
-    <header className="flex h-16 items-center justify-between border-b border-dark-700 bg-dark-800 px-6">
+    <header className="flex h-16 items-center justify-between border-b border-gray-700 bg-gray-800 px-6">
       {/* Left side - Empty for now */}
       <div></div>
 
@@ -24,7 +24,7 @@ export default function Header() {
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
-          className="rounded-lg p-2 text-dark-300 hover:bg-dark-700 hover:text-white transition-colors"
+          className="rounded-lg p-2 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
           title="Toggle theme"
         >
           {theme === 'dark' ? (
@@ -36,7 +36,7 @@ export default function Header() {
 
         {/* Notifications */}
         <button
-          className="relative rounded-lg p-2 text-dark-300 hover:bg-dark-700 hover:text-white transition-colors"
+          className="relative rounded-lg p-2 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
           title="Notifications"
         >
           <Bell className="h-5 w-5" />
@@ -48,16 +48,16 @@ export default function Header() {
         </button>
 
         {/* User Menu */}
-        <div className="flex items-center gap-3 pl-4 border-l border-dark-700">
+        <div className="flex items-center gap-3 pl-4 border-l border-gray-700">
           <div className="text-right">
             <p className="text-sm font-medium text-white">
               {user?.full_name || 'Guest User'}
             </p>
-            <p className="text-xs text-dark-400">{user?.role || 'viewer'}</p>
+            <p className="text-xs text-gray-400">{user?.role || 'viewer'}</p>
           </div>
           
           <button
-            className="rounded-lg p-2 text-dark-300 hover:bg-dark-700 hover:text-white transition-colors"
+            className="rounded-lg p-2 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
             title="User menu"
           >
             <User className="h-5 w-5" />
@@ -65,7 +65,7 @@ export default function Header() {
 
           <button
             onClick={logout}
-            className="rounded-lg p-2 text-dark-300 hover:bg-critical-600 hover:text-white transition-colors"
+            className="rounded-lg p-2 text-gray-300 hover:bg-critical-600 hover:text-white transition-colors"
             title="Logout"
           >
             <LogOut className="h-5 w-5" />

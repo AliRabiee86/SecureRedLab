@@ -35,13 +35,13 @@ export default function StatCard({
   }
 
   return (
-    <Card className="hover:border-dark-600 transition-colors">
+    <Card className="hover:border-gray-600 transition-colors">
       <div className="flex items-center justify-between">
         <div className="flex-1">
-          <p className="text-sm font-medium text-dark-400">{title}</p>
+          <p className="text-sm font-medium text-gray-400">{title}</p>
           
           {isLoading ? (
-            <div className="mt-2 h-8 w-24 animate-pulse rounded bg-dark-700" />
+            <div className="mt-2 h-8 w-24 animate-pulse rounded bg-gray-700" />
           ) : (
             <p className="mt-2 text-3xl font-bold text-white">{value}</p>
           )}
@@ -51,7 +51,7 @@ export default function StatCard({
               <span className={trend.isPositive ? 'text-info-500' : 'text-critical-500'}>
                 {trend.isPositive ? '↑' : '↓'} {Math.abs(trend.value)}%
               </span>
-              <span className="text-dark-400">vs last week</span>
+              <span className="text-gray-400">vs last week</span>
             </div>
           )}
         </div>
