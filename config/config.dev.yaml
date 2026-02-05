@@ -1,0 +1,101 @@
+environment: development
+version: 1.0.0
+database:
+  host: localhost
+  port: 5432
+  name: secureredlab
+  user: secureuser
+  max_connections: 100
+  connection_timeout: 30
+  ssl_mode: require
+ai:
+  models_path: /home/user/SecureRedLab/ai_models/models
+  cache_path: /home/user/SecureRedLab/ai_models/cache
+  gpu_enabled: true
+  max_gpu_memory: 8192
+  batch_size: 32
+  learning_rate: 0.001
+  epochs: 100
+  supported_models:
+  - deepseek-coder-33b-instruct
+  - glm-4-6b
+  - llama-3.1-70b-instruct
+  - mixtral-8x22b-instruct
+  - qwen-14b-chat
+  post_quantum_encryption: true
+  differential_privacy: true
+  federated_learning: true
+simulation:
+  max_bots: 1000000
+  max_bandwidth_gbps: 1000
+  max_requests_per_sec: 2500000
+  docker_isolation: true
+  network_namespace: true
+  cpu_limit_percent: 80
+  ram_limit_percent: 80
+  kill_switch_enabled: true
+  compliance_logging: true
+security:
+  jwt_expiration_hours: 24
+  mfa_enabled: true
+  password_min_length: 12
+  max_login_attempts: 5
+  session_timeout_minutes: 60
+  encryption_algorithm: AES-256
+  support_only_mode: true
+logging:
+  level: INFO
+  max_file_size_mb: 50
+  backup_count: 10
+  retention_days: 90
+  json_format: true
+  console_output: true
+  persian_timestamps: true
+monitoring:
+  websocket_enabled: true
+  websocket_port: 8765
+  update_interval_sec: 1
+  metrics_retention_hours: 24
+  alerting_enabled: true
+compliance:
+  standards:
+  - NIST-800-171
+  - SOC2
+  - ISO-27001
+  - CFAA
+  audit_trail_enabled: true
+  tamper_proof_logging: true
+  approval_authorities:
+  - FBI
+  - IRB
+  - Local-Police
+  - University
+  pre_approval_required: true
+rl_engine:
+  state_dimension: 13
+  action_dimension: 10
+  learning_rate: 0.1
+  discount_factor: 0.99
+  epsilon_start: 1.0
+  epsilon_decay: 0.995
+  epsilon_min: 0.01
+  replay_buffer_size: 100000
+  priority_alpha: 0.6
+  priority_beta: 0.4
+  retrain_interval: 100
+  batch_size: 64
+  training_epochs: 10
+  save_episodes_to_db: true
+  save_models_to_db: true
+  model_save_interval: 50
+  reward_success: 10.0
+  reward_speed: 2.0
+  reward_stealth: 5.0
+  reward_damage: 3.0
+  reward_detection_penalty: -10.0
+  algorithms:
+  - q_learning
+  - deep_q_network
+  - policy_gradient
+  - actor_critic
+  - ppo
