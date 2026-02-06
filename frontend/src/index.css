@@ -2,69 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-    @apply bg-cyber-black text-gray-100 antialiased;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-  }
-}
-
-@layer components {
-  .glass-card {
-    @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl;
+/* Custom Utilities */
+@layer utilities {
+  .terminal-cursor {
+    animation: blink 1s step-end infinite;
   }
   
-  .cyber-button {
-    @apply relative overflow-hidden px-6 py-2.5 rounded-xl font-bold transition-all duration-300
-           bg-cyber-blue text-cyber-black hover:bg-white hover:scale-105 active:scale-95
-           shadow-[0_0_20px_rgba(56,189,248,0.3)];
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
   }
-
-  .cyber-input {
-    @apply bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white outline-none
-           focus:border-cyber-blue/50 focus:ring-4 focus:ring-cyber-blue/10 transition-all;
-  }
-
-  .agent-badge {
-    @apply px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase border;
+  
+  .scan-line {
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(34, 197, 94, 0.1) 50%,
+      transparent 100%
+    );
+    animation: scan 2s linear infinite;
   }
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-cyber-black;
+  @apply bg-dark-800;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-white/10 rounded-full hover:bg-cyber-blue/50 transition-colors;
+  @apply bg-dark-600 rounded;
 }
 
-/* Animations */
-.animate-glow {
-  animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-  from { filter: drop-shadow(0 0 2px rgba(56, 189, 248, 0.5)); }
-  to { filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.8)); }
-}
-
-/* Cyber Grid Overlay */
-.cyber-bg {
-  position: fixed;
-  inset: 0;
-  background-image: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%);
-  z-index: -1;
-}
-
-.cyber-bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath d='M0 40 L40 40 L40 0 M0 0 L0 40' fill='none' stroke='rgba(56, 189, 248, 0.03)' stroke-width='1'/%3E%3C/svg%3E");
-  mask-image: radial-gradient(circle at 50% 50%, black, transparent);
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-dark-500;
 }

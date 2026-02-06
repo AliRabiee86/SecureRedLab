@@ -21,7 +21,7 @@ export default function AttackList({ attacks, isLoading = false }: AttackListPro
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
             <div key={i} className="animate-pulse">
-              <div className="h-16 rounded bg-gray-700" />
+              <div className="h-16 rounded bg-dark-700" />
             </div>
           ))}
         </div>
@@ -53,7 +53,7 @@ export default function AttackList({ attacks, isLoading = false }: AttackListPro
       case 'pending':
         return <Clock className="h-5 w-5 text-medium-500" />
       default:
-        return <Clock className="h-5 w-5 text-gray-400" />
+        return <Clock className="h-5 w-5 text-dark-400" />
     }
   }
 
@@ -75,7 +75,7 @@ export default function AttackList({ attacks, isLoading = false }: AttackListPro
         {attacks.map((attack) => (
           <div
             key={attack.id}
-            className="flex items-center gap-4 p-4 rounded-lg bg-gray-700/50 hover:bg-gray-700 transition-colors cursor-pointer border border-transparent hover:border-gray-600"
+            className="flex items-center gap-4 p-4 rounded-lg bg-dark-700/50 hover:bg-dark-700 transition-colors cursor-pointer border border-transparent hover:border-dark-600"
           >
             {/* Status Icon */}
             <div className="flex-shrink-0">
@@ -90,10 +90,10 @@ export default function AttackList({ attacks, isLoading = false }: AttackListPro
                   {attack.status}
                 </Badge>
               </div>
-              <p className="text-sm text-gray-400 truncate">
+              <p className="text-sm text-dark-400 truncate">
                 {getModuleShortName(attack.module)}
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-dark-500">
                 {attack.attack_type.toUpperCase()} • {formatRelativeTime(attack.started_at)}
               </p>
             </div>
@@ -102,7 +102,7 @@ export default function AttackList({ attacks, isLoading = false }: AttackListPro
             {attack.status === 'running' && (
               <div className="flex-shrink-0 text-right">
                 <p className="text-sm font-medium text-white">{attack.progress}%</p>
-                <div className="mt-1 w-16 h-1.5 bg-gray-600 rounded-full overflow-hidden">
+                <div className="mt-1 w-16 h-1.5 bg-dark-600 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-high-500 transition-all duration-300"
                     style={{ width: `${attack.progress}%` }}
@@ -116,14 +116,14 @@ export default function AttackList({ attacks, isLoading = false }: AttackListPro
                 <p className="text-sm font-medium text-info-500">
                   {attack.results.sessions.length} session(s)
                 </p>
-                <p className="text-xs text-gray-400">Exploited</p>
+                <p className="text-xs text-dark-400">Exploited</p>
               </div>
             )}
 
             {attack.status === 'failed' && (
               <div className="flex-shrink-0 text-right">
                 <p className="text-sm font-medium text-critical-500">Failed</p>
-                <p className="text-xs text-gray-400">No exploit</p>
+                <p className="text-xs text-dark-400">No exploit</p>
               </div>
             )}
           </div>

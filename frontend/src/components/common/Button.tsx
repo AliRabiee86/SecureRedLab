@@ -33,10 +33,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variants = {
       primary: 'bg-critical-600 text-white hover:bg-critical-700 focus:ring-critical-500',
-      secondary: 'bg-gray-700 text-gray-100 hover:bg-gray-600 focus:ring-gray-500',
+      secondary: 'bg-dark-700 text-dark-100 hover:bg-dark-600 focus:ring-dark-500',
       danger: 'bg-critical-600 text-white hover:bg-critical-700 focus:ring-critical-500',
-      ghost: 'bg-transparent text-gray-300 hover:bg-gray-700 hover:text-white focus:ring-gray-500',
-      outline: 'border border-gray-600 bg-transparent text-gray-300 hover:bg-gray-700 hover:text-white focus:ring-gray-500',
+      ghost: 'bg-transparent text-dark-300 hover:bg-dark-700 hover:text-white focus:ring-dark-500',
+      outline: 'border border-dark-600 bg-transparent text-dark-300 hover:bg-dark-700 hover:text-white focus:ring-dark-500',
     }
 
     const sizes = {

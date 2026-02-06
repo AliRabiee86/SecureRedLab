@@ -112,7 +112,7 @@ export default function ScanHistoryChart({ data, isLoading = false }: ScanHistor
 
       {isLoading ? (
         <div className="h-64 flex items-center justify-center">
-          <div className="animate-pulse text-gray-400">Loading chart...</div>
+          <div className="animate-pulse text-dark-400">Loading chart...</div>
         </div>
       ) : (
         <div className="h-64">

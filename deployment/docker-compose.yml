@@ -1,0 +1,312 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: secureredlab-postgres
+    environment:
+      POSTGRES_DB: secureredlab
+      POSTGRES_USER: secureuser
+      POSTGRES_PASSWORD: securepass
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=fa_IR.UTF-8 --lc-ctype=fa_IR.UTF-8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./core/database_schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./scripts/postgres-init.sh:/docker-entrypoint-initdb.d/02-init.sh
+    networks:
+      - secureredlab-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U secureuser -d secureredlab"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis for caching and WebSocket support
+  redis:
+    image: redis:7-alpine
+    container_name: secureredlab-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - secureredlab-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Core AI Engine
+  ai-engine:
+    build:
+      context: .
+      dockerfile: docker/ai-engine.Dockerfile
+    container_name: secureredlab-ai-engine
+    environment:
+      - DATABASE_URL=postgresql://secureuser:securepass@postgres:5432/secureredlab
+      - REDIS_URL=redis://redis:6379/0
+      - AI_MODELS_PATH=/app/models
+      - LOG_LEVEL=INFO
+      - SUPPORT_ONLY_MODE=true
+      - PERSIAN_LOCALE=fa_IR
+    volumes:
+      - ./models:/app/models
+      - ./logs:/app/logs
+      - ./data:/app/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - secureredlab-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # WebSocket Server for Live Display
+  websocket-server:
+    build:
+      context: .
+      dockerfile: docker/websocket-server.Dockerfile
+    container_name: secureredlab-websocket
+    ports:
+      - "8765:8765"
+    environment:
+      - REDIS_URL=redis://redis:6379/1
+      - WEBSOCKET_HOST=0.0.0.0
+      - WEBSOCKET_PORT=8765
+      - LOG_LEVEL=INFO
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - secureredlab-network
+    volumes:
+      - ./logs:/app/logs
+
+  # DDoS Simulation Service
+  ddos-simulator:
+    build:
+      context: .
+      dockerfile: docker/ddos-simulator.Dockerfile
+    container_name: secureredlab-ddos
+    environment:
+      - DATABASE_URL=postgresql://secureuser:securepass@postgres:5432/secureredlab
+      - REDIS_URL=redis://redis:6379/2
+      - AI_ENGINE_URL=http://ai-engine:8000
+      - LOG_LEVEL=INFO
+      - MAX_SIMULATION_DURATION=3600
+      - MAX_BOT_COUNT=1000000
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      ai-engine:
+        condition: service_healthy
+    networks:
+      - secureredlab-network
+    volumes:
+      - ./logs:/app/logs
+      - ./temp:/app/temp
+
+  # Shell Penetration Service
+  shell-penetration:
+    build:
+      context: .
+      dockerfile: docker/shell-penetration.Dockerfile
+    container_name: secureredlab-shell
+    environment:
+      - DATABASE_URL=postgresql://secureuser:securepass@postgres:5432/secureredlab
+      - AI_ENGINE_URL=http://ai-engine:8000
+      - LOG_LEVEL=INFO
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ai-engine:
+        condition: service_healthy
+    networks:
+      - secureredlab-network
+    volumes:
+      - ./logs:/app/logs
+
+  # Data Extraction Service
+  data-extraction:
+    build:
+      context: .
+      dockerfile: docker/data-extraction.Dockerfile
+    container_name: secureredlab-data
+    environment:
+      - DATABASE_URL=postgresql://secureuser:securepass@postgres:5432/secureredlab
+      - AI_ENGINE_URL=http://ai-engine:8000
+      - LOG_LEVEL=INFO
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ai-engine:
+        condition: service_healthy
+    networks:
+      - secureredlab-network
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+
+  # Deface Simulation Service
+  deface-simulator:
+    build:
+      context: .
+      dockerfile: docker/deface-simulator.Dockerfile
+    container_name: secureredlab-deface
+    environment:
+      - DATABASE_URL=postgresql://secureuser:securepass@postgres:5432/secureredlab
+      - AI_ENGINE_URL=http://ai-engine:8000
+      - LOG_LEVEL=INFO
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ai-engine:
+        condition: service_healthy
+    networks:
+      - secureredlab-network
+    volumes:
+      - ./logs:/app/logs
+
+  # Human Behavior Simulation Service
+  human-behavior:
+    build:
+      context: .
+      dockerfile: docker/human-behavior.Dockerfile
+    container_name: secureredlab-behavior
+    environment:
+      - DATABASE_URL=postgresql://secureuser:securepass@postgres:5432/secureredlab
+      - AI_ENGINE_URL=http://ai-engine:8000
+      - LOG_LEVEL=INFO
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ai-engine:
+        condition: service_healthy
+    networks:
+      - secureredlab-network
+    volumes:
+      - ./logs:/app/logs
+
+  # Web Application (Flask/Django)
+  web-app:
+    build:
+      context: .
+      dockerfile: docker/web-app.Dockerfile
+    container_name: secureredlab-web
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://secureuser:securepass@postgres:5432/secureredlab
+      - REDIS_URL=redis://redis:6379/3
+      - WEBSOCKET_URL=ws://websocket-server:8765
+      - AI_ENGINE_URL=http://ai-engine:8000
+      - SECRET_KEY=your-secret-key-here
+      - DEBUG=False
+      - PERSIAN_LOCALE=fa_IR
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      ai-engine:
+        condition: service_healthy
+      websocket-server:
+        condition: service_started
+    networks:
+      - secureredlab-network
+    volumes:
+      - ./logs:/app/logs
+      - ./static:/app/static
+      - ./templates:/app/templates
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: secureredlab-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ./static:/var/www/static:ro
+    depends_on:
+      - web-app
+      - websocket-server
+    networks:
+      - secureredlab-network
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Monitoring and Logging (ELK Stack)
+  elasticsearch:
+    image: elasticsearch:8.11.0
+    container_name: secureredlab-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - secureredlab-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  kibana:
+    image: kibana:8.11.0
+    container_name: secureredlab-kibana
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - secureredlab-network
+
+  logstash:
+    image: logstash:8.11.0
+    container_name: secureredlab-logstash
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./logstash/config:/usr/share/logstash/config:ro
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - secureredlab-network
+
+volumes:
+  postgres_data:
+  redis_data:
+  elasticsearch_data:
+  models_data:
+  logs_data:
+
+networks:
+  secureredlab-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

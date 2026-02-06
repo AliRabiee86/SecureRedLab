@@ -28,11 +28,11 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       running: 'bg-low-500/10 text-low-500 border border-low-500/20',
       completed: 'bg-info-500/10 text-info-500 border border-info-500/20',
       failed: 'bg-critical-500/10 text-critical-500 border border-critical-500/20',
-      cancelled: 'bg-gray-600/10 text-gray-400 border border-gray-600/20',
+      cancelled: 'bg-dark-600/10 text-dark-400 border border-dark-600/20',
       success: 'bg-info-500/10 text-info-500 border border-info-500/20',
       
       // Default
-      default: 'bg-gray-600/10 text-gray-300 border border-gray-600/20',
+      default: 'bg-dark-600/10 text-dark-300 border border-dark-600/20',
     }
 
     const sizes = {
