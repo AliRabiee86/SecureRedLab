@@ -27,7 +27,7 @@ export function LoadingOverlay({ message = 'Loading...' }: { message?: string })
   return (
     <div className="flex flex-col items-center justify-center gap-4 p-12">
       <Spinner size="xl" />
-      <p className="text-dark-400">{message}</p>
+      <p className="text-gray-400">{message}</p>
     </div>
   )
 }

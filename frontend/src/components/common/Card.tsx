@@ -1,8 +1,3 @@
-/**
- * SecureRedLab - Card Component
- * Phase 8.2 - Common UI Components
- */
-
 import { forwardRef, type HTMLAttributes } from 'react'
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
@@ -12,12 +7,12 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
 
 const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ children, variant = 'default', padding = 'md', className = '', ...props }, ref) => {
-    const baseStyles = 'rounded-lg bg-dark-800'
+    const baseStyles = 'glass-card overflow-hidden transition-all duration-500'
 
     const variants = {
-      default: 'border border-dark-700',
-      bordered: 'border-2 border-dark-600',
-      elevated: 'shadow-lg shadow-black/20',
+      default: 'bg-white/5 border-white/10 hover:border-white/20',
+      bordered: 'border-2 border-cyber-blue/20 bg-cyber-blue/5',
+      elevated: 'shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-white/10',
     }
 
     const paddings = {

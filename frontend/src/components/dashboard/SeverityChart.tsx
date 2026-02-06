@@ -92,10 +92,10 @@ export default function SeverityChart({ data, isLoading = false }: SeverityChart
 
       {isLoading ? (
         <div className="h-64 flex items-center justify-center">
-          <div className="animate-pulse text-dark-400">Loading chart...</div>
+          <div className="animate-pulse text-gray-400">Loading chart...</div>
         </div>
       ) : total === 0 ? (
-        <div className="h-64 flex items-center justify-center text-dark-400">
+        <div className="h-64 flex items-center justify-center text-gray-400">
           No vulnerabilities found
         </div>
       ) : (
@@ -106,26 +106,26 @@ export default function SeverityChart({ data, isLoading = false }: SeverityChart
 
       {/* Summary Stats */}
       {!isLoading && total > 0 && (
-        <div className="mt-6 grid grid-cols-5 gap-3 text-center border-t border-dark-700 pt-4">
+        <div className="mt-6 grid grid-cols-5 gap-3 text-center border-t border-gray-700 pt-4">
           <div>
             <p className="text-2xl font-bold text-critical-500">{data.critical}</p>
-            <p className="text-xs text-dark-400 mt-1">Critical</p>
+            <p className="text-xs text-gray-400 mt-1">Critical</p>
           </div>
           <div>
             <p className="text-2xl font-bold text-high-500">{data.high}</p>
-            <p className="text-xs text-dark-400 mt-1">High</p>
+            <p className="text-xs text-gray-400 mt-1">High</p>
           </div>
           <div>
             <p className="text-2xl font-bold text-medium-500">{data.medium}</p>
-            <p className="text-xs text-dark-400 mt-1">Medium</p>
+            <p className="text-xs text-gray-400 mt-1">Medium</p>
           </div>
           <div>
             <p className="text-2xl font-bold text-low-500">{data.low}</p>
-            <p className="text-xs text-dark-400 mt-1">Low</p>
+            <p className="text-xs text-gray-400 mt-1">Low</p>
           </div>
           <div>
             <p className="text-2xl font-bold text-info-500">{data.info}</p>
-            <p className="text-xs text-dark-400 mt-1">Info</p>
+            <p className="text-xs text-gray-400 mt-1">Info</p>
           </div>
         </div>
       )}
